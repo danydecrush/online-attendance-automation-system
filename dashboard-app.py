@@ -70,6 +70,7 @@ def main():
     st.sidebar.title("Student / Staff Login")
     hide_watermark = """
         <style>
+            #MainMenu{visibility:hidden;}
             footer {visibility:hidden;}
             .css-1rh8hwn.e16fv1kl2{font-size:18px;}
             .css-nlntq9.e16nr0p33 p{font-size:18px;}
