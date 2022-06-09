@@ -21,13 +21,13 @@ firebaseConfig = {
 
 
 def create_student(email, password, reg):
-#     uid = reg
-#     user = auth.create_user(email=email, password=password, uid=uid)
-#     return user.uid
-    cred = credentials.Certificate("private_key.json")
-    firebase_admin.initialize_app(cred)
-    a = firebase_admin.get_app().project_id
-    return a
+    uid = reg
+    user = auth.create_user(email=email, password=password, uid=uid)
+    return user.uid
+#     cred = credentials.Certificate("private_key.json")
+#     firebase_admin.initialize_app(cred)
+#     a = firebase_admin.get_app().project_id
+#     return a
 
 
 @st.cache(allow_output_mutation=True)
@@ -204,15 +204,15 @@ def main():
                         reg = st.text_input('Enter your Register Number').strip()
                         submit = st.form_submit_button(label='Submit')
                     if submit:
-#                         if len(email) <= 0 or len(password) <= 0 or len(reg) <= 0:
-#                             st.warning("All Fields are necessary")
-#                         else:
-                        status = create_student(email, password, reg)
-                        st.write(status)
-                        if status:
-                            st.success(f"Student Login Id Created Successfully + {status}")
+                        if len(email) <= 0 or len(password) <= 0 or len(reg) <= 0:
+                            st.warning("All Fields are necessary")
                         else:
-                            st.error("There is a problem in inputs, Check your inputs.")
+                            status = create_student(email, password, reg)
+                            st.write(status)
+                            if status:
+                                st.success(f"Student Login Id Created Successfully + {status}")
+                            else:
+                                st.error("There is a problem in inputs, Check your inputs.")
                 elif option == "Student Data":
                     table = getDatabaseAsTable(db)
                     table['date'] = table.index
