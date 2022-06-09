@@ -25,7 +25,7 @@ def create_student(email, password, reg):
 #     user = auth.create_user(email=email, password=password, uid=uid)
 #     return user.uid
     cred = credentials.Certificate("private_key.json")
-    firebase_admin.initializeApp(cred)
+    firebase_admin.initialize_app(cred)
     a = firebase_admin.get_app().project_id
     return a
 
