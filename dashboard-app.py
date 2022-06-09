@@ -107,7 +107,7 @@ def main():
             st.sidebar.warning("All Fields are necessary")
         if login:
             user = pbAuth.sign_in_with_email_and_password(email, password)
-            table = getDatabaseAsTable()
+            table = getDatabaseAsTable(db)
             if user['registered'] and user['localId'] == reg:
                 uname = table.loc[table['register-no'] == reg, 'name'].values[0]
                 st.subheader(f'Welcome {uname}')
