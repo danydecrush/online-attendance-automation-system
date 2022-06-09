@@ -20,17 +20,17 @@ firebaseConfig = {
 }
 
 
-def create_student(email, password, reg, fbApp):
-    if firebase_admin.App != fbApp:
+def create_student(email, password, reg):
+    if not firebase_admin._apps:
         cred = credentials.Certificate("private_key.json")
         firebase_admin.initialize_app(cred)
         uid = reg
         user = auth.create_user(email=email, password=password, uid=uid)
+        return user.uid
     else:
         uid = reg
         user = auth.create_user(email=email, password=password, uid=uid)
-
-    return user.uid
+        return user.uid
 
 
 @st.cache(allow_output_mutation=True)
@@ -77,7 +77,7 @@ def convert_df(df3):
 
 
 def main():
-    firebase, pbAuth, db = init()
+    fb, pbAuth, db = init()
     st.title("Attendance Dashboard")
     st.sidebar.title("Student / Staff Login")
     hide_watermark = """
@@ -210,7 +210,7 @@ def main():
                         if len(email) <= 0 or len(password) <= 0 or len(reg) <= 0:
                             st.warning("All Fields are necessary")
                         else:
-                            status = create_student(email, password, reg, firebase)
+                            status = create_student(email, password, reg)
                             st.write(status)
                             if status:
                                 st.success(f"Student Login Id Created Successfully + {status}")
