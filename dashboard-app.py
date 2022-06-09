@@ -1,10 +1,10 @@
+import firebase_admin
 import streamlit as st
 from streamlit_option_menu import option_menu
 from st_aggrid import GridUpdateMode, DataReturnMode, AgGrid
 from st_aggrid.grid_options_builder import GridOptionsBuilder
 import pyrebase
 import pandas as pd
-import firebase_admin
 from firebase_admin import auth, credentials
 import time
 from datetime import datetime
@@ -20,8 +20,8 @@ firebaseConfig = {
 }
 
 
-def create_student(email, password, reg):
-    if firebase_admin.get_app().project_id != "attendance-automation-bf5e4":
+def create_student(email, password, reg, fbApp):
+    if firebase_admin.App != fbApp:
         cred = credentials.Certificate("private_key.json")
         firebase_admin.initialize_app(cred)
         uid = reg
@@ -31,6 +31,7 @@ def create_student(email, password, reg):
         user = auth.create_user(email=email, password=password, uid=uid)
 
     return user.uid
+
 
 @st.cache(allow_output_mutation=True)
 def init():
@@ -209,7 +210,7 @@ def main():
                         if len(email) <= 0 or len(password) <= 0 or len(reg) <= 0:
                             st.warning("All Fields are necessary")
                         else:
-                            status = create_student(email, password, reg)
+                            status = create_student(email, password, reg, firebase)
                             st.write(status)
                             if status:
                                 st.success(f"Student Login Id Created Successfully + {status}")
